@@ -19,4 +19,11 @@ protected:
 	virtual void BeginPlay() override;
 
 
+private:
+	float	runningTime = 0.f;
+
+	// ÁøÆø
+	float	amplitude = 0.25f;
+
+	float	timeConstant = 5.f;
 };
