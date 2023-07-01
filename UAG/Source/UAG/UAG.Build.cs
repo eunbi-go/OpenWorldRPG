@@ -8,7 +8,11 @@ public class UAG : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
+		PublicDependencyModuleNames.AddRange(new string[] 
+		{ 
+			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
+			"HairStrandsCore"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
