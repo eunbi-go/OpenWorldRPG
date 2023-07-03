@@ -11,6 +11,7 @@ class UInputMappingContext;
 class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
+class AItem;
 
 UCLASS()
 class UAG_API AAGCharacter : public ACharacter
@@ -39,8 +40,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* jumpAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* equipAction;
+
 	void Move(const FInputActionValue& _value);
 	void Look(const FInputActionValue& _value);
+	void Equip(const FInputActionValue& _value);
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -48,4 +53,11 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* cameraComp;
+
+	UPROPERTY(VisibleInstanceOnly)
+	AItem* overlappingItem;
+
+public:
+	// FORCEINLINE: 함수를 강제로 인라인화시킴.
+	FORCEINLINE void SetOverlappingItem(AItem* _item) { overlappingItem = _item; }
 };

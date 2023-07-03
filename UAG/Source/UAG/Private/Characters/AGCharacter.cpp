@@ -7,6 +7,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Item.h"
+#include "Weapons/Weapon.h"
 
 AAGCharacter::AAGCharacter()
 {
@@ -68,6 +70,15 @@ void AAGCharacter::Look(const FInputActionValue& _value)
 	}
 }
 
+void AAGCharacter::Equip(const FInputActionValue& _value)
+{
+	AWeapon* weapon = Cast<AWeapon>(overlappingItem);
+	if (weapon)
+	{
+		weapon->Equip(GetMesh(), TEXT("RightHandSocket"));
+	}
+}
+
 void AAGCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -83,6 +94,7 @@ void AAGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 		enhancedInputComponent->BindAction(movementAction, ETriggerEvent::Triggered, this, &AAGCharacter::Move);
 		enhancedInputComponent->BindAction(lookAction, ETriggerEvent::Triggered, this, &AAGCharacter::Look);
 		enhancedInputComponent->BindAction(jumpAction, ETriggerEvent::Triggered, this, &AAGCharacter::Jump);
+		enhancedInputComponent->BindAction(equipAction, ETriggerEvent::Triggered, this, &AAGCharacter::Equip);
 	}
 }
 

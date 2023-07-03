@@ -4,6 +4,7 @@
 #include "Item.h"
 #include "UAG/DebugMacros.h"
 #include "Components/SphereComponent.h"
+#include "Characters/AGCharacter.h"
 
 AItem::AItem()
 {
@@ -47,19 +48,19 @@ float AItem::TransformedCos()
 
 void AItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const FString otherActorName = OtherActor->GetName();
-	if (GEngine)
+	AAGCharacter* character = Cast<AAGCharacter>(OtherActor);
+	if (character)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, otherActorName);
+		character->SetOverlappingItem(this);
 	}
 }
 
 void AItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	const FString otherActorName = FString("Ending Overlap: ") + OtherActor->GetName();
-	if (GEngine)
+	AAGCharacter* character = Cast<AAGCharacter>(OtherActor);
+	if (character)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Blue, otherActorName);
+		character->SetOverlappingItem(nullptr);
 	}
 }
 

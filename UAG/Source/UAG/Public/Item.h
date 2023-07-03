@@ -36,20 +36,22 @@ protected:
 	T Avg(T first, T second);
 
 	UFUNCTION()
-	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-private:
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	float	runningTime = 0.f;
+	virtual void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	// UPROPERTY(): 가비지 컬렉션에 참여.
 	// VisibleAnywhere: static mesh 를 변경하기 위해 해당 포인터를 블루프린트 에디터에 노출시킴.
 	UPROPERTY(VisibleAnywhere)
 	// 컴포넌트에 대한 포인터 생성.
 	UStaticMeshComponent* itemMesh;
+
+private:
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float	runningTime = 0.f;
+
+
 
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* sphereComp;
