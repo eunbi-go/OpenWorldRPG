@@ -22,6 +22,7 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Jump() override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -34,6 +35,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* lookAction;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* jumpAction;
 
 	void Move(const FInputActionValue& _value);
 	void Look(const FInputActionValue& _value);

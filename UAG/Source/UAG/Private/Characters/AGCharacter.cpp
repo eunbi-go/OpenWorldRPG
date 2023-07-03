@@ -17,6 +17,7 @@ AAGCharacter::AAGCharacter()
 	bUseControllerRotationRoll = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+	JumpMaxCount = 2;
 
 	springArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("springArmComp"));
 	springArmComp->SetupAttachment(GetRootComponent());
@@ -81,6 +82,12 @@ void AAGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	{
 		enhancedInputComponent->BindAction(movementAction, ETriggerEvent::Triggered, this, &AAGCharacter::Move);
 		enhancedInputComponent->BindAction(lookAction, ETriggerEvent::Triggered, this, &AAGCharacter::Look);
+		enhancedInputComponent->BindAction(jumpAction, ETriggerEvent::Triggered, this, &AAGCharacter::Jump);
 	}
+}
+
+void AAGCharacter::Jump()
+{
+	Super::Jump();
 }
 
