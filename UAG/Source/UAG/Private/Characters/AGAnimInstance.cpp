@@ -25,5 +25,6 @@ void UAGAnimInstance::NativeUpdateAnimation(float _deltaTime)
 	{
 		groundSpeed = UKismetMathLibrary::VSizeXY(movementComp->Velocity);
 		isFalling = movementComp->IsFalling();
+		characterState = character->GetCharacterState();
 	}
 }

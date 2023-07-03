@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "CharacterTypes.h"
 #include "AGCharacter.generated.h"
 
 class UInputMappingContext;
@@ -12,6 +13,8 @@ class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
 class AItem;
+
+
 
 UCLASS()
 class UAG_API AAGCharacter : public ACharacter
@@ -48,6 +51,8 @@ protected:
 	void Equip(const FInputActionValue& _value);
 
 private:
+	ECharacterState characterState = ECharacterState::ECS_Unequipped;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* springArmComp;
 
@@ -60,4 +65,5 @@ private:
 public:
 	// FORCEINLINE: 함수를 강제로 인라인화시킴.
 	FORCEINLINE void SetOverlappingItem(AItem* _item) { overlappingItem = _item; }
+	FORCEINLINE ECharacterState GetCharacterState() const { return characterState; }
 };

@@ -76,6 +76,7 @@ void AAGCharacter::Equip(const FInputActionValue& _value)
 	if (weapon)
 	{
 		weapon->Equip(GetMesh(), TEXT("RightHandSocket"));
+		characterState = ECharacterState::ECS_EquippedOneHandWeapon;
 	}
 }
 
