@@ -9,6 +9,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Item.h"
 #include "Weapons/Weapon.h"
+#include "Animation/AnimMontage.h"
 
 AAGCharacter::AAGCharacter()
 {
@@ -80,6 +81,52 @@ void AAGCharacter::Equip(const FInputActionValue& _value)
 	}
 }
 
+void AAGCharacter::Attack(const FInputActionValue& _value)
+{
+	if (IsCanAttack())
+	{
+		PlayAttackMontage();
+		actionState = EActionState::EAS_Attacking;
+	}
+}
+
+void AAGCharacter::PlayAttackMontage()
+{
+	UAnimInstance* animInst = GetMesh()->GetAnimInstance();
+	if (animInst && attackMontage)
+	{
+		animInst->Montage_Play(attackMontage);
+		const int32 selection = FMath::RandRange(0, 1);
+		FName sectionName = FName();
+		switch (selection)
+		{
+		case 0:
+			sectionName = FName("Attack1");
+			break;
+
+		case 1:
+			sectionName = FName("Attack2");
+			break;
+
+		default:
+			break;
+		}
+
+		animInst->Montage_JumpToSection(sectionName, attackMontage);
+	}
+}
+
+void AAGCharacter::AttackEnd()
+{
+	actionState = EActionState::EAS_Unoccupied;
+}
+
+bool AAGCharacter::IsCanAttack()
+{
+	return actionState == EActionState::EAS_Unoccupied &&
+		characterState != ECharacterState::ECS_Unequipped;;
+}
+
 void AAGCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -96,6 +143,7 @@ void AAGCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 		enhancedInputComponent->BindAction(lookAction, ETriggerEvent::Triggered, this, &AAGCharacter::Look);
 		enhancedInputComponent->BindAction(jumpAction, ETriggerEvent::Triggered, this, &AAGCharacter::Jump);
 		enhancedInputComponent->BindAction(equipAction, ETriggerEvent::Triggered, this, &AAGCharacter::Equip);
+		enhancedInputComponent->BindAction(attackAction, ETriggerEvent::Triggered, this, &AAGCharacter::Attack);
 	}
 }
 

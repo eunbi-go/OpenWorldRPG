@@ -28,3 +28,8 @@ void UAGAnimInstance::NativeUpdateAnimation(float _deltaTime)
 		characterState = character->GetCharacterState();
 	}
 }
+
+void UAGAnimInstance::AnimNotify_AttackEnd()
+{
+	character->SetActionState(EActionState::EAS_Unoccupied);
+}

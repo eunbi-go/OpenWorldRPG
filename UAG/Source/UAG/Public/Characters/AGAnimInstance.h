@@ -33,4 +33,8 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Movement | Character State")
 	ECharacterState characterState;
+
+protected:
+	UFUNCTION()
+	void AnimNotify_AttackEnd();
 };

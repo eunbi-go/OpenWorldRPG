@@ -13,7 +13,7 @@ class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
 class AItem;
-
+class UAnimMontage;
 
 
 UCLASS()
@@ -46,12 +46,25 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* equipAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* attackAction;
+
+	// callback for Input
 	void Move(const FInputActionValue& _value);
 	void Look(const FInputActionValue& _value);
 	void Equip(const FInputActionValue& _value);
+	void Attack(const FInputActionValue& _value);
+
+	// Play Montage
+	void PlayAttackMontage();
+	
+	UFUNCTION(BlueprintCallable)
+	void AttackEnd();
+	bool IsCanAttack();
 
 private:
 	ECharacterState characterState = ECharacterState::ECS_Unequipped;
+	EActionState actionState = EActionState::EAS_Unoccupied;
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* springArmComp;
@@ -62,8 +75,13 @@ private:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* overlappingItem;
 
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	UAnimMontage* attackMontage;
+
 public:
 	// FORCEINLINE: 함수를 강제로 인라인화시킴.
 	FORCEINLINE void SetOverlappingItem(AItem* _item) { overlappingItem = _item; }
 	FORCEINLINE ECharacterState GetCharacterState() const { return characterState; }
+	FORCEINLINE void SetCharacterState(ECharacterState _state) { characterState = _state; }
+	FORCEINLINE void SetActionState(EActionState _state) { actionState = _state; }
 };
