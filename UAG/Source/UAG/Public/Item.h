@@ -8,6 +8,12 @@
 
 class USphereComponent;
 
+enum class EItemState : uint8
+{
+	EIS_Hovering,
+	EIS_Equip
+};
+
 UCLASS()
 class UAG_API AItem : public AActor
 {
@@ -47,11 +53,11 @@ protected:
 	// 컴포넌트에 대한 포인터 생성.
 	UStaticMeshComponent* itemMesh;
 
+	EItemState itemState = EItemState::EIS_Hovering;
+
 private:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float	runningTime = 0.f;
-
-
 
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* sphereComp;

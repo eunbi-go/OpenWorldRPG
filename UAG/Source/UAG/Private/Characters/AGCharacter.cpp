@@ -45,6 +45,9 @@ void AAGCharacter::BeginPlay()
 
 void AAGCharacter::Move(const FInputActionValue& _value)
 {
+	if (actionState == EActionState::EAS_Attacking)
+		return;
+
 	const FVector2D movement = _value.Get<FVector2D>();
 
 	if (Controller)
