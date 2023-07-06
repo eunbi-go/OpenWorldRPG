@@ -33,3 +33,18 @@ void UAGAnimInstance::AnimNotify_AttackEnd()
 {
 	character->SetActionState(EActionState::EAS_Unoccupied);
 }
+
+void UAGAnimInstance::AnimNotify_UnEquip()
+{
+	character->UnEquip();
+}
+
+void UAGAnimInstance::AnimNotify_Equip()
+{
+	character->Equip();
+}
+
+void UAGAnimInstance::AnimNotify_EquipEnd()
+{
+	character->SetActionState(EActionState::EAS_Unoccupied);
+}

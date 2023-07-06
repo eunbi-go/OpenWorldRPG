@@ -53,14 +53,16 @@ protected:
 	// 컴포넌트에 대한 포인터 생성.
 	UStaticMeshComponent* itemMesh;
 
+	UPROPERTY(VisibleAnywhere)
+	USphereComponent* sphereComp;
+
 	EItemState itemState = EItemState::EIS_Hovering;
 
 private:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float	runningTime = 0.f;
 
-	UPROPERTY(VisibleAnywhere)
-	USphereComponent* sphereComp;
+	
 };
 
 template<typename T>

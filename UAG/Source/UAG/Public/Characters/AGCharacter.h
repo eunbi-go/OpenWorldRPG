@@ -14,7 +14,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class AItem;
 class UAnimMontage;
-
+class AWeapon;
 
 UCLASS()
 class UAG_API AAGCharacter : public ACharacter
@@ -27,6 +27,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void Jump() override;
+	void UnEquip();
+	void Equip();
 
 protected:
 	virtual void BeginPlay() override;
@@ -52,7 +54,7 @@ protected:
 	// callback for Input
 	void Move(const FInputActionValue& _value);
 	void Look(const FInputActionValue& _value);
-	void Equip(const FInputActionValue& _value);
+	void EquipKey(const FInputActionValue& _value);
 	void Attack(const FInputActionValue& _value);
 
 	// Play Montage
@@ -61,6 +63,11 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void AttackEnd();
 	bool IsCanAttack();
+
+	void PlayEquipMontage(FName _sectionName);
+	bool IsCanUnequip();
+	bool IsCanEquip();
+
 
 private:
 	ECharacterState characterState = ECharacterState::ECS_Unequipped;
@@ -75,8 +82,15 @@ private:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* overlappingItem;
 
+	UPROPERTY(VisibleAnywhere, Category = Weapon)
+	AWeapon* equippedWeapon;
+
+	// Animation Montages
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* attackMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	UAnimMontage* equipMontage;
 
 public:
 	// FORCEINLINE: 함수를 강제로 인라인화시킴.

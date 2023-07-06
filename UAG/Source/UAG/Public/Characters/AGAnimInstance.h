@@ -37,4 +37,13 @@ public:
 protected:
 	UFUNCTION()
 	void AnimNotify_AttackEnd();
+
+	UFUNCTION()
+	void AnimNotify_UnEquip();
+
+	UFUNCTION()
+	void AnimNotify_Equip();
+
+	UFUNCTION()
+	void AnimNotify_EquipEnd();
 };
