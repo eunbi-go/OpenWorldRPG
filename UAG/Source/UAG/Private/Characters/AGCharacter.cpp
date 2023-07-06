@@ -10,6 +10,7 @@
 #include "Item.h"
 #include "Weapons/Weapon.h"
 #include "Animation/AnimMontage.h"
+#include "Components/BoxComponent.h"
 
 AAGCharacter::AAGCharacter()
 {
@@ -169,6 +170,14 @@ bool AAGCharacter::IsCanEquip()
 	return actionState == EActionState::EAS_Unoccupied && 
 		characterState == ECharacterState::ECS_Unequipped &&
 		equippedWeapon;
+}
+
+void AAGCharacter::SetWeaponCollisionType(ECollisionEnabled::Type _type)
+{
+	if (equippedWeapon && equippedWeapon->GetBoxComp())
+	{
+		equippedWeapon->GetBoxComp()->SetCollisionEnabled(_type);
+	}
 }
 
 void AAGCharacter::UnEquip()

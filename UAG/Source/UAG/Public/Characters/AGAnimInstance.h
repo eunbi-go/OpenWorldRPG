@@ -46,4 +46,10 @@ protected:
 
 	UFUNCTION()
 	void AnimNotify_EquipEnd();
+
+	UFUNCTION()
+	void AnimNotify_OnWeaponCollision();
+
+	UFUNCTION()
+	void AnimNotify_OffWeaponCollision();
 };

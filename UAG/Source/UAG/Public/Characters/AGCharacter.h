@@ -98,4 +98,6 @@ public:
 	FORCEINLINE ECharacterState GetCharacterState() const { return characterState; }
 	FORCEINLINE void SetCharacterState(ECharacterState _state) { characterState = _state; }
 	FORCEINLINE void SetActionState(EActionState _state) { actionState = _state; }
+	
+	void SetWeaponCollisionType(ECollisionEnabled::Type _type);
 };

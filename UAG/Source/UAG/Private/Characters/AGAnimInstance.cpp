@@ -48,3 +48,13 @@ void UAGAnimInstance::AnimNotify_EquipEnd()
 {
 	character->SetActionState(EActionState::EAS_Unoccupied);
 }
+
+void UAGAnimInstance::AnimNotify_OnWeaponCollision()
+{
+	character->SetWeaponCollisionType(ECollisionEnabled::QueryOnly);
+}
+
+void UAGAnimInstance::AnimNotify_OffWeaponCollision()
+{
+	character->SetWeaponCollisionType(ECollisionEnabled::NoCollision);
+}

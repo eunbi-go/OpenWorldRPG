@@ -4,7 +4,33 @@
 #include "Weapons/Weapon.h"
 #include "Characters/AGCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
+
+AWeapon::AWeapon()
+{
+	boxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComp"));
+	boxComp->SetupAttachment(GetRootComponent());
+	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	boxComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	boxComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+
+	boxTraceStart = CreateDefaultSubobject<USceneComponent>(TEXT("Box Trace Start"));
+	boxTraceStart->SetupAttachment(GetRootComponent());
+	boxTraceStart->SetRelativeLocation(FVector(0.f, 0.f, -30.f));
+
+	boxTraceEnd = CreateDefaultSubobject<USceneComponent>(TEXT("Box Trace End"));
+	boxTraceEnd->SetupAttachment(GetRootComponent());
+	boxTraceEnd->SetRelativeLocation(FVector(0.f, 0.f, 50.f));
+}
+
+void AWeapon::BeginPlay()
+{
+	Super::BeginPlay();
+
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::OnBoxOverlap);
+}
 
 void AWeapon::Equip(USceneComponent* _parent, FName _socketName)
 {
@@ -38,4 +64,27 @@ void AWeapon::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	Super::OnSphereEndOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex);
+}
+
+void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	// GetComponentLocation(): 월드 공간에서의 위치 반환.
+	const FVector start = boxTraceStart->GetComponentLocation();
+	const FVector end = boxTraceEnd->GetComponentLocation();
+
+	TArray<AActor*> actorsToIgnoreArray;
+	actorsToIgnoreArray.Add(this);
+
+	FHitResult boxHit;
+
+	UKismetSystemLibrary::BoxTraceSingle(
+		this, start, end, FVector(5.f),
+		boxTraceStart->GetComponentRotation(),
+		ETraceTypeQuery::TraceTypeQuery1,
+		false,
+		actorsToIgnoreArray,	// 추적에서 무시할 액터들의 배열
+		EDrawDebugTrace::ForDuration,	// 몇 초 동안 보겠다.
+		boxHit,
+		true	// 자기 자신은 무시한다.
+	);
 }
