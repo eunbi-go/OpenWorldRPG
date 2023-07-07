@@ -2,7 +2,9 @@
 
 #include "DrawDebugHelpers.h"
 
-#define DRAW_SPHERE(location) if (GetWorld()) DrawDebugSphere(GetWorld(), location, 25.f, 12, FColor::Red, true)
+#define DRAW_SPHERE(location) if (GetWorld()) DrawDebugSphere(GetWorld(), location, 25.f, 12, FColor::Red, true);
+
+#define DRAW_SPHERE_COLOR(location, color) if (GetWorld()) DrawDebugSphere(GetWorld(), location, 8.f, 12, color, false, 5.f);
 
 #define DRAW_SPHERE_SINGLE_FRAME(location) if (GetWorld()) DrawDebugSphere(GetWorld(), location, 25.f, 12, FColor::Red, false, -1.f);
 

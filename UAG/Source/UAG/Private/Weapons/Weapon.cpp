@@ -7,6 +7,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Components/SphereComponent.h"
 #include "Components/BoxComponent.h"
+#include "Interfaces/HitInterface.h"
 
 AWeapon::AWeapon()
 {
@@ -87,4 +88,14 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		boxHit,
 		true	// 자기 자신은 무시한다.
 	);
+
+	// 충돌한 객체가 IHitInterface 를 상속받았을 경우, 해당 클래스의 GetHit() 함수 호출.
+	if (boxHit.GetActor())
+	{
+		IHitInterface* hitInterface = Cast<IHitInterface>(boxHit.GetActor());
+		if (hitInterface)
+		{
+			hitInterface->GetHit(boxHit.ImpactPoint);
+		}
+	}
 }
