@@ -23,6 +23,8 @@ public:
 
 	void AttachMeshToSocket(USceneComponent* _parent, const FName& _socketName);
 
+	TArray<AActor*> ignoreActors;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,6 +47,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* boxTraceEnd;
+
+	
 
 public:
 	FORCEINLINE UBoxComponent* GetBoxComp() const { return boxComp; }

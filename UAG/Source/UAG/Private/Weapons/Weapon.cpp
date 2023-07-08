@@ -76,6 +76,11 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	TArray<AActor*> actorsToIgnoreArray;
 	actorsToIgnoreArray.Add(this);
 
+	// 한 번에 한 액터를 2번 이상 hit 하지 않도록.
+	// ignoreActors 배열은 공격 몽타주가 끝날 때 초기화.
+	for (AActor* actor : ignoreActors)
+		actorsToIgnoreArray.AddUnique(actor);
+
 	FHitResult boxHit;
 
 	UKismetSystemLibrary::BoxTraceSingle(
@@ -84,7 +89,7 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		ETraceTypeQuery::TraceTypeQuery1,
 		false,
 		actorsToIgnoreArray,	// 추적에서 무시할 액터들의 배열
-		EDrawDebugTrace::ForDuration,	// 몇 초 동안 보겠다.
+		EDrawDebugTrace::None,	// None: 디버깅 박스를 보지 않겠다, ForDuration: 몇 초 동안 보겠다.
 		boxHit,
 		true	// 자기 자신은 무시한다.
 	);
@@ -97,5 +102,8 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		{
 			hitInterface->GetHit(boxHit.ImpactPoint);
 		}
+
+		// AddUnique(): ignoreActors 배열에 넣으려는 액터가 이미 존재하는지 확인.
+		ignoreActors.AddUnique(boxHit.GetActor());
 	}
 }

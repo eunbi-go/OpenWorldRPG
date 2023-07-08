@@ -64,7 +64,7 @@ protected:
 	void AttackEnd();
 	bool IsCanAttack();
 
-	void PlayEquipMontage(FName _sectionName);
+	void PlayEquipMontage(const FName& _sectionName);
 	bool IsCanUnequip();
 	bool IsCanEquip();
 

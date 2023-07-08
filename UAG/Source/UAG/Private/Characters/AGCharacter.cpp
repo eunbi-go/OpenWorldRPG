@@ -137,7 +137,7 @@ void AAGCharacter::PlayAttackMontage()
 	}
 }
 
-void AAGCharacter::PlayEquipMontage(FName _sectionName)
+void AAGCharacter::PlayEquipMontage(const FName& _sectionName)
 {
 	UAnimInstance* animInst = GetMesh()->GetAnimInstance();
 	if (animInst && equipMontage)
@@ -177,6 +177,7 @@ void AAGCharacter::SetWeaponCollisionType(ECollisionEnabled::Type _type)
 	if (equippedWeapon && equippedWeapon->GetBoxComp())
 	{
 		equippedWeapon->GetBoxComp()->SetCollisionEnabled(_type);
+		equippedWeapon->ignoreActors.Empty();
 	}
 }
 

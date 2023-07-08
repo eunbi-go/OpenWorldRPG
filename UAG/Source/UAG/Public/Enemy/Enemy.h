@@ -7,6 +7,8 @@
 #include "Interfaces/HitInterface.h"
 #include "Enemy.generated.h"
 
+class UAnimMontage;
+
 UCLASS()
 class UAG_API AEnemy : public ACharacter, public IHitInterface
 {
@@ -19,9 +21,22 @@ public:
 	
 	virtual void GetHit(const FVector& _impactPoint) override;
 
+	void CalculateHitDegree(const FVector& _impactPoint);
+
 protected:
 	virtual void BeginPlay() override;
+	
+	// Play Montages
+	void PlayHitMontages(const FName& _sectionName);
 
-public:	
+private:	
+	UPROPERTY(EditAnywhere, Category = Sounds)
+	USoundBase* hitSound;
 
+	UPROPERTY(EditAnywhere, Category = VisualEffects)
+	UParticleSystem* hitParticle;
+	
+	// Animation Montages
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	UAnimMontage* hitMontage;
 };
