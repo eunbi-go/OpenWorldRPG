@@ -101,9 +101,14 @@ void AWeapon::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 		if (hitInterface)
 		{
 			hitInterface->GetHit(boxHit.ImpactPoint);
+
+			// BP 버전 호출.
+			//hitInterface->Execute_GetHit(boxHit.GetActor(), boxHit.ImpactPoint);
 		}
 
 		// AddUnique(): ignoreActors 배열에 넣으려는 액터가 이미 존재하는지 확인.
 		ignoreActors.AddUnique(boxHit.GetActor());
+
+		CreateFields(boxHit.ImpactPoint);
 	}
 }

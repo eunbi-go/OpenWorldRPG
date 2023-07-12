@@ -11,8 +11,9 @@ public class UAG : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] 
 		{ 
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
-			"HairStrandsCore", "MetasoundEngine"
-		});
+			"HairStrandsCore", "MetasoundEngine", "GeometryCollectionEngine",
+            "ChaosSolverEngine"
+        });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
