@@ -5,6 +5,7 @@
 #include "UAG/DebugMacros.h"
 #include "Components/SphereComponent.h"
 #include "Characters/AGCharacter.h"
+#include "NiagaraComponent.h"
 
 AItem::AItem()
 {
@@ -25,6 +26,9 @@ AItem::AItem()
 	// 2. OnComponentBeginOverlap: 델리게이트 이름
 	sphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("sphereComp"));
 	sphereComp->SetupAttachment(GetRootComponent());
+
+	niagaraComp = CreateDefaultSubobject<UNiagaraComponent>(TEXT("NiagaraComp"));
+	niagaraComp->SetupAttachment(GetRootComponent());
 }
 
 void AItem::BeginPlay()

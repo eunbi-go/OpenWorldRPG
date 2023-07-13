@@ -8,6 +8,7 @@
 #include "Components/SphereComponent.h"
 #include "Components/BoxComponent.h"
 #include "Interfaces/HitInterface.h"
+#include "NiagaraComponent.h"
 
 AWeapon::AWeapon()
 {
@@ -37,6 +38,7 @@ void AWeapon::Equip(USceneComponent* _parent, FName _socketName)
 {
 	AttachMeshToSocket(_parent, _socketName);
 	itemState = EItemState::EIS_Equip;
+
 	if (equipSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(
@@ -48,6 +50,11 @@ void AWeapon::Equip(USceneComponent* _parent, FName _socketName)
 	if (sphereComp)
 	{
 		sphereComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+
+	if (niagaraComp)
+	{
+		niagaraComp->Deactivate();
 	}
 }
 

@@ -16,7 +16,8 @@ ABreakableActor::ABreakableActor()
 	geometryComp->SetGenerateOverlapEvents(true);
 	geometryComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 	geometryComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
-	
+	geometryComp->bNotifyBreaks = true;
+	geometryComp->bNotifyCollisions = true;
 
 	capsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComp"));
 	capsuleComp->SetupAttachment(GetRootComponent());
@@ -35,32 +36,35 @@ void ABreakableActor::BeginPlay()
 void ABreakableActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void ABreakableActor::GetHit(const FVector& _impactPoint)
 {
+	if (isBroken)
+		return;
+
+	isBroken = true;
 	UWorld* world = GetWorld();
 
-	if (world && treasureClass)
+	if (world && treasureArray.Num() > 0)
 	{
 		FVector location = GetActorLocation();
 		location.Z += 75.f;
 
+		int32 index = FMath::RandRange(0, treasureArray.Num() - 1);
+
 		world->SpawnActor<ATreasure>(
-			treasureClass,
+			treasureArray[index],
 			location,
 			GetActorRotation()
 			);
 
 	}
+
 	capsuleComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 }
 
 void ABreakableActor::OnChaosBreak(const FChaosBreakEvent& BreakEvent)
 {
 	SetLifeSpan(2.f);
-
-	
-
 }

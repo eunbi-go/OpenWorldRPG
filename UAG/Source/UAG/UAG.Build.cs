@@ -12,7 +12,7 @@ public class UAG : ModuleRules
 		{ 
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput",
 			"HairStrandsCore", "MetasoundEngine", "GeometryCollectionEngine",
-            "ChaosSolverEngine"
+            "ChaosSolverEngine", "Niagara"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

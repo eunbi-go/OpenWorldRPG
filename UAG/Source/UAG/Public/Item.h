@@ -7,6 +7,7 @@
 #include "Item.generated.h"
 
 class USphereComponent;
+class UNiagaraComponent;
 
 enum class EItemState : uint8
 {
@@ -57,6 +58,9 @@ protected:
 	USphereComponent* sphereComp;
 
 	EItemState itemState = EItemState::EIS_Hovering;
+
+	UPROPERTY(EditAnywhere)
+	class UNiagaraComponent* niagaraComp;
 
 private:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
